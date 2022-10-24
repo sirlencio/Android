@@ -16,8 +16,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView grande;
     private TextView peque;
-    private TextView cuentaBin;
-    private TextView rdoBin;
 
     private RadioButton binario;
     private RadioButton decimal;
@@ -41,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonSum;
     private Button buttonIgu;
     private Button buttonComa;
+    private Button buttonAND;
+    private Button buttonOR;
+    private Button buttonXOR;
+    private Button buttonNOT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         grande = (TextView) findViewById(R.id.textViewGrande);
         peque = (TextView) findViewById(R.id.textViewPeq);
-        cuentaBin = (TextView) findViewById(R.id.cuentaBin);
-        rdoBin = (TextView) findViewById(R.id.rdoBin);
 
         binario = (RadioButton) findViewById(R.id.binario);
         decimal = (RadioButton) findViewById(R.id.decimal);
@@ -74,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
         buttonDel = (Button) findViewById(R.id.borrar);
         buttonC = (Button) findViewById(R.id.eliminar);
         buttonIgu = (Button) findViewById(R.id.igual);
+        buttonAND = (Button) findViewById(R.id.AND);
+        buttonOR = (Button) findViewById(R.id.OR);
+        buttonXOR = (Button) findViewById(R.id.XOR);
+        buttonNOT = (Button) findViewById(R.id.NOT);
 
         //Cambio de modo
         decimal.setOnClickListener(view -> {
@@ -86,11 +90,18 @@ public class MainActivity extends AppCompatActivity {
             button8.setEnabled(true);
             button9.setEnabled(true);
             buttonComa.setEnabled(true);
-            n1 = "";
-            n2 = "";
-            signo = "";
-            grande.setText("");
+            buttonAND.setEnabled(false);
+            buttonOR.setEnabled(false);
+            buttonXOR.setEnabled(false);
+            buttonNOT.setEnabled(false);
+            if (n1 != ""){
+                n1 = conversorBinarioDecimal(n1) + "";
+            }else if(n2 != ""){
+                n2 = conversorBinarioDecimal(n2) + "";
+            }
+            grande.setText(n1 + signo + n2);
             peque.setText("0.0");
+
             decimal.setSelected(true);
             binario.setSelected(false);
 
@@ -105,10 +116,16 @@ public class MainActivity extends AppCompatActivity {
             button8.setEnabled(false);
             button9.setEnabled(false);
             buttonComa.setEnabled(false);
-            n1 = "";
-            n2 = "";
-            signo = "";
-            grande.setText("");
+            buttonAND.setEnabled(true);
+            buttonOR.setEnabled(true);
+            buttonXOR.setEnabled(true);
+            buttonNOT.setEnabled(true);
+            if (n1 != ""){
+                n1 = conversorDecimalBinario(Long.parseLong(n1));
+            }else if(n2 != ""){
+                n2 = conversorDecimalBinario(Long.parseLong(n2));
+            }
+            grande.setText(n1 + signo + n2);
             peque.setText("0.0");
             binario.setSelected(true);
             decimal.setSelected(false);
@@ -314,8 +331,6 @@ public class MainActivity extends AppCompatActivity {
                             binario = conversorDecimalBinario(rdo);
                             peque.setText(grande.getText());
                             grande.setText(binario);
-                            cuentaBin.setText(primero + signo + segundo);
-                            rdoBin.setText(rdo + "");
                             n1 = binario;
                             n2 = "";
                             operando = false;
@@ -325,8 +340,6 @@ public class MainActivity extends AppCompatActivity {
                             binario = conversorDecimalBinario(rdo);
                             peque.setText(grande.getText());
                             grande.setText(binario);
-                            cuentaBin.setText(primero + signo + segundo);
-                            rdoBin.setText(rdo + "");
                             n1 = binario;
                             n2 = "";
                             operando = false;
@@ -336,8 +349,6 @@ public class MainActivity extends AppCompatActivity {
                             binario = conversorDecimalBinario(rdo);
                             peque.setText(grande.getText());
                             grande.setText(binario);
-                            cuentaBin.setText(primero + signo + segundo);
-                            rdoBin.setText(rdo + "");
                             n1 = binario;
                             n2 = "";
                             operando = false;
@@ -347,8 +358,6 @@ public class MainActivity extends AppCompatActivity {
                             binario = conversorDecimalBinario(rdo);
                             peque.setText(grande.getText());
                             grande.setText(binario);
-                            cuentaBin.setText(primero + signo + segundo);
-                            rdoBin.setText(rdo + "");
                             n1 = binario;
                             n2 = "";
                             operando = false;
@@ -358,13 +367,12 @@ public class MainActivity extends AppCompatActivity {
                             binario = conversorDecimalBinario(rdo);
                             peque.setText(grande.getText());
                             grande.setText(binario);
-                            cuentaBin.setText(primero + signo + segundo);
-                            rdoBin.setText(rdo + "");
                             n1 = binario;
                             n2 = "";
                             operando = false;
                             break;
                     }
+                    signo = "";
                 } else if (decimal.isSelected()){
                     double primero = Double.parseDouble(n1);
                     double segundo = Double.parseDouble(n2);
@@ -411,6 +419,7 @@ public class MainActivity extends AppCompatActivity {
                             operando = false;
                             break;
                     }
+                    signo = "";
                 }
             }
         });
