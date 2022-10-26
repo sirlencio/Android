@@ -366,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         buttonNOT.setOnClickListener(view -> {
-            if (grande.getText() != "" && !signo.equals("")) {
+            if (grande.getText() != "" && signo.equals("")) {
                 StringBuilder rdo = new StringBuilder();
                 for (int i = 0; i < n1.length(); i++) {
                     if (n1.charAt(i) == '0') {
