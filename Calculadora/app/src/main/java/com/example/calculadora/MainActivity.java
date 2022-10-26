@@ -3,16 +3,18 @@ package com.example.calculadora;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     String n1 = "";
     String n2 = "";
     String signo = "";
-    boolean operando;
 
     private TextView grande;
     private TextView peque;
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonOR;
     private Button buttonXOR;
     private Button buttonNOT;
+
+    private boolean comprobante = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,59 +85,77 @@ public class MainActivity extends AppCompatActivity {
 
         //Cambio de modo
         decimal.setOnClickListener(view -> {
-            button2.setEnabled(true);
-            button3.setEnabled(true);
-            button4.setEnabled(true);
-            button5.setEnabled(true);
-            button6.setEnabled(true);
-            button7.setEnabled(true);
-            button8.setEnabled(true);
-            button9.setEnabled(true);
-            buttonComa.setEnabled(true);
-            buttonAND.setEnabled(false);
-            buttonOR.setEnabled(false);
-            buttonXOR.setEnabled(false);
-            buttonNOT.setEnabled(false);
-            if (n1 != ""){
-                n1 = conversorBinarioDecimal(n1) + "";
-            }else if(n2 != ""){
-                n2 = conversorBinarioDecimal(n2) + "";
-            }
-            grande.setText(n1 + signo + n2);
-            peque.setText("0.0");
-
             decimal.setSelected(true);
             binario.setSelected(false);
+            if (comprobante) {
+                comprobante = false;
+                //Desactivaciones y activaciones de botones
+                button2.setEnabled(true);
+                button3.setEnabled(true);
+                button4.setEnabled(true);
+                button5.setEnabled(true);
+                button6.setEnabled(true);
+                button7.setEnabled(true);
+                button8.setEnabled(true);
+                button9.setEnabled(true);
+                buttonComa.setEnabled(true);
+                buttonAND.setVisibility(View.INVISIBLE);
+                buttonOR.setVisibility(View.INVISIBLE);
+                buttonXOR.setVisibility(View.INVISIBLE);
+                buttonNOT.setVisibility(View.INVISIBLE);
 
+                //Cambio de formato
+                if (signo.equals("AND") || signo.equals("OR") || signo.equals("XOR")) {
+                    n1 = Integer.parseInt(n1, 2) + "";
+                    n2 = "";
+                    signo = "";
+                } else {
+                    if (!n2.equals("")) {
+                        n1 = Integer.parseInt(n1, 2) + "";
+                        n2 = Integer.parseInt(n2, 2) + "";
+                    } else if (!n1.equals("")) {
+                        n1 = Integer.parseInt(n1, 2) + "";
+                    }
+                }
+                grande.setText(n1 + signo + n2);
+                peque.setText("0.0");
+            }
         });
         binario.setOnClickListener(view -> {
-            button2.setEnabled(false);
-            button3.setEnabled(false);
-            button4.setEnabled(false);
-            button5.setEnabled(false);
-            button6.setEnabled(false);
-            button7.setEnabled(false);
-            button8.setEnabled(false);
-            button9.setEnabled(false);
-            buttonComa.setEnabled(false);
-            buttonAND.setEnabled(true);
-            buttonOR.setEnabled(true);
-            buttonXOR.setEnabled(true);
-            buttonNOT.setEnabled(true);
-            if (n1 != ""){
-                n1 = conversorDecimalBinario(Long.parseLong(n1));
-            }else if(n2 != ""){
-                n2 = conversorDecimalBinario(Long.parseLong(n2));
-            }
-            grande.setText(n1 + signo + n2);
-            peque.setText("0.0");
             binario.setSelected(true);
             decimal.setSelected(false);
+            if (!comprobante) {
+                comprobante = true;
+                //Desactivaciones y activaciones de botones
+                button2.setEnabled(false);
+                button3.setEnabled(false);
+                button4.setEnabled(false);
+                button5.setEnabled(false);
+                button6.setEnabled(false);
+                button7.setEnabled(false);
+                button8.setEnabled(false);
+                button9.setEnabled(false);
+                buttonComa.setEnabled(false);
+                buttonAND.setVisibility(View.VISIBLE);
+                buttonOR.setVisibility(View.VISIBLE);
+                buttonXOR.setVisibility(View.VISIBLE);
+                buttonNOT.setVisibility(View.VISIBLE);
+
+                //Cambio de formato
+                if (!n2.equals("")) {
+                    n1 = Integer.toBinaryString((int) (Double.parseDouble(n1)));
+                    n2 = Integer.toBinaryString((int) (Double.parseDouble(n2)));
+                } else if (!n1.equals("")) {
+                    n1 = Integer.toBinaryString((int) (Double.parseDouble(n1)));
+                }
+                grande.setText(n1 + signo + n2);
+                peque.setText("0.0");
+            }
         });
 
         //Numeros
         button0.setOnClickListener(view -> {
-            if (operando) {
+            if (!signo.equals("")) {
                 n2 = n2 + 0;
                 grande.setText(n1 + signo + "" + n2);
             } else {
@@ -142,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         button1.setOnClickListener(view -> {
-            if (operando) {
+            if (!signo.equals("")) {
                 n2 = n2 + 1;
                 grande.setText(n1 + signo + n2);
             } else {
@@ -151,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         button2.setOnClickListener(view -> {
-            if (operando) {
+            if (!signo.equals("")) {
                 n2 = n2 + 2;
                 grande.setText(n1 + signo + n2);
             } else {
@@ -160,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         button3.setOnClickListener(view -> {
-            if (operando) {
+            if (!signo.equals("")) {
                 n2 = n2 + 3;
                 grande.setText(n1 + signo + n2);
             } else {
@@ -169,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         button4.setOnClickListener(view -> {
-            if (operando) {
+            if (!signo.equals("")) {
                 n2 = n2 + 4;
                 grande.setText(n1 + signo + n2);
             } else {
@@ -178,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         button5.setOnClickListener(view -> {
-            if (operando) {
+            if (!signo.equals("")) {
                 n2 = n2 + 5;
                 grande.setText(n1 + signo + n2);
             } else {
@@ -187,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         button6.setOnClickListener(view -> {
-            if (operando) {
+            if (!signo.equals("")) {
                 n2 = n2 + 6;
                 grande.setText(n1 + signo + n2);
             } else {
@@ -196,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         button7.setOnClickListener(view -> {
-            if (operando) {
+            if (!signo.equals("")) {
                 n2 = n2 + 7;
                 grande.setText(n1 + signo + n2);
             } else {
@@ -205,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         button8.setOnClickListener(view -> {
-            if (operando) {
+            if (!signo.equals("")) {
                 n2 = n2 + 8;
                 grande.setText(n1 + signo + n2);
             } else {
@@ -214,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         button9.setOnClickListener(view -> {
-            if (operando) {
+            if (!signo.equals("")) {
                 n2 = n2 + 9;
                 grande.setText(n1 + signo + n2);
             } else {
@@ -223,21 +245,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //La coma
+        //Coma
         buttonComa.setOnClickListener(view -> {
-            String cadena = (String) grande.getText();
-            if (operando) {
-                if (cadena.charAt(cadena.length() - 1) == signo.charAt(0)) {
+            String cadena = grande.getText().toString();
+            if (!signo.equals("")) { // Si hay un signo
+                if (cadena.charAt(cadena.length() - 1) == signo.charAt(0)) { //Si no hay numero despues del signo
                     n2 = "0.";
                     grande.setText(n1 + signo + n2);
                 } else {
                     n2 = n2 + ".";
                     grande.setText(n1 + signo + n2);
                 }
-            } else if (cadena.equals("")) {
+            } else if (cadena.equals("")) { //Si la cadena esta vacia y no hay signo
                 n1 = "0.";
                 grande.setText(n1);
-            } else {
+            } else { //Si la cadena no esta vacia y no hay signo
                 n1 = n1 + ".";
                 grande.setText(n1);
             }
@@ -245,18 +267,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Funciones de borrado
         buttonDel.setOnClickListener(view -> {
-            String cadena = (String) grande.getText();
-            if (operando) {
-                if (cadena.charAt(cadena.length() - 1) == signo.charAt(0)) {
+            String cadena = grande.getText().toString();
+            if (!signo.equals("")) { // Si hay un signo
+                if (cadena.charAt(cadena.length() - 1) == signo.charAt(0)) { //Si lo que borra es el signo
                     signo = "";
-                    operando = false;
                     grande.setText(n1);
                 } else {
-                    cadena = cadena.substring(0, cadena.length());
+                    cadena = cadena.substring(0, cadena.length() - 1);
                     n2 = cadena;
                     grande.setText(cadena);
                 }
-            } else if (!cadena.equals("")) {
+            } else if (!cadena.equals("")) { // Si la cadena no esta vacia y no hay signo
                 cadena = cadena.substring(0, cadena.length() - 1);
                 n1 = cadena;
                 grande.setText(cadena);
@@ -272,184 +293,124 @@ public class MainActivity extends AppCompatActivity {
 
         //Operaciones
         buttonSum.setOnClickListener(view -> {
-            if (grande.getText() != "") {
-                if (!operando) {
-                    signo = "+";
-                    operando = true;
-                    grande.setText(n1 + signo);
-                }
+            if (grande.getText() != "" && signo.equals("")) {
+                signo = "+";
+                grande.setText(n1 + signo);
             }
         });
         buttonRes.setOnClickListener(view -> {
-            if (grande.getText() != "") {
-                if (!operando) {
-                    signo = "-";
-                    operando = true;
-                    grande.setText(n1 + signo);
-                }
+            if (grande.getText() != "" && signo.equals("")) {
+                signo = "-";
+                grande.setText(n1 + signo);
             }
         });
         buttonMul.setOnClickListener(view -> {
-            if (grande.getText() != "") {
-                if (!operando) {
-                    signo = "x";
-                    operando = true;
-                    grande.setText(n1 + signo);
-                }
+            if (grande.getText() != "" && signo.equals("")) {
+                signo = "x";
+                grande.setText(n1 + signo);
             }
         });
         buttonDiv.setOnClickListener(view -> {
-            if (grande.getText() != "") {
-                if (!operando) {
-                    signo = "÷";
-                    operando = true;
-                    grande.setText(n1 + signo);
-                }
+            if (grande.getText() != "" && signo.equals("")) {
+                signo = "÷";
+                grande.setText(n1 + signo);
             }
         });
         buttonPorc.setOnClickListener(view -> {
-            if (grande.getText() != "") {
-                if (!operando) {
-                    signo = "%";
-                    operando = true;
-                    grande.setText(n1 + signo);
+            if (grande.getText() != "" && signo.equals("")) {
+                signo = "%";
+                grande.setText(n1 + signo);
+            }
+        });
+
+        //Operaciones logicas
+        buttonAND.setOnClickListener(view -> {
+            if (grande.getText() != "" && signo.equals("")) {
+                signo = "AND";
+                grande.setText(n1 + signo);
+            }
+        });
+        buttonOR.setOnClickListener(view -> {
+            if (grande.getText() != "" && signo.equals("")) {
+                signo = "OR";
+                grande.setText(n1 + signo);
+            }
+        });
+        buttonXOR.setOnClickListener(view -> {
+            if (grande.getText() != "" && signo.equals("")) {
+                signo = "XOR";
+                grande.setText(n1 + signo);
+            }
+        });
+        buttonNOT.setOnClickListener(view -> {
+            if (grande.getText() != "" && !signo.equals("")) {
+                StringBuilder rdo = new StringBuilder();
+                for (int i = 0; i < n1.length(); i++) {
+                    if (n1.charAt(i) == '0') {
+                        rdo.append("1");
+                    } else {
+                        rdo.append("0");
+                    }
                 }
+                grande.setText(rdo);
+                peque.setText(n1 + "NOT");
+                n1 = rdo + "";
             }
         });
 
         //El resultado
         buttonIgu.setOnClickListener(view -> {
-            if (grande.getText() != "" && operando) {
+            double primero, segundo;
+            if (grande.getText() != "" && !signo.equals("")) {
                 if (binario.isSelected()) {
-                    long primero = conversorBinarioDecimal(n1);
-                    long segundo = conversorBinarioDecimal(n2);
-                    long rdo;
-                    String binario;
-                    switch (signo) {
-                        case "+":
-                            rdo = primero + segundo;
-                            binario = conversorDecimalBinario(rdo);
-                            peque.setText(grande.getText());
-                            grande.setText(binario);
-                            n1 = binario;
-                            n2 = "";
-                            operando = false;
-                            break;
-                        case "-":
-                            rdo = primero - segundo;
-                            binario = conversorDecimalBinario(rdo);
-                            peque.setText(grande.getText());
-                            grande.setText(binario);
-                            n1 = binario;
-                            n2 = "";
-                            operando = false;
-                            break;
-                        case "x":
-                            rdo = primero * segundo;
-                            binario = conversorDecimalBinario(rdo);
-                            peque.setText(grande.getText());
-                            grande.setText(binario);
-                            n1 = binario;
-                            n2 = "";
-                            operando = false;
-                            break;
-                        case "÷":
-                            rdo = primero / segundo;
-                            binario = conversorDecimalBinario(rdo);
-                            peque.setText(grande.getText());
-                            grande.setText(binario);
-                            n1 = binario;
-                            n2 = "";
-                            operando = false;
-                            break;
-                        case "%":
-                            rdo = (primero / 100) * segundo;
-                            binario = conversorDecimalBinario(rdo);
-                            peque.setText(grande.getText());
-                            grande.setText(binario);
-                            n1 = binario;
-                            n2 = "";
-                            operando = false;
-                            break;
-                    }
-                    signo = "";
-                } else if (decimal.isSelected()){
-                    double primero = Double.parseDouble(n1);
-                    double segundo = Double.parseDouble(n2);
-                    double resultado;
-                    switch (signo) {
-                        case "+":
-                            resultado = primero + segundo;
-                            peque.setText(grande.getText());
-                            grande.setText(resultado + "");
-                            n1 = resultado + "";
-                            n2 = "";
-                            operando = false;
-                            break;
-                        case "-":
-                            resultado = primero - segundo;
-                            peque.setText(grande.getText());
-                            grande.setText(resultado + "");
-                            n1 = resultado + "";
-                            n2 = "";
-                            operando = false;
-                            break;
-                        case "x":
-                            resultado = primero * segundo;
-                            peque.setText(grande.getText());
-                            grande.setText(resultado + "");
-                            n1 = resultado + "";
-                            n2 = "";
-                            operando = false;
-                            break;
-                        case "÷":
-                            resultado = primero / segundo;
-                            peque.setText(grande.getText());
-                            grande.setText(resultado + "");
-                            n1 = resultado + "";
-                            n2 = "";
-                            operando = false;
-                            break;
-                        case "%":
-                            resultado = (primero / 100) * segundo;
-                            peque.setText(grande.getText());
-                            grande.setText(resultado + "");
-                            n1 = resultado + "";
-                            n2 = "";
-                            operando = false;
-                            break;
-                    }
-                    signo = "";
+                    primero = (double) Integer.parseInt(n1, 2);
+                    segundo = (double) Integer.parseInt(n2, 2);
+                } else {
+                    primero = Double.parseDouble(n1);
+                    segundo = Double.parseDouble(n2);
                 }
+                double resultado = 0;
+                switch (signo) {
+                    case "+":
+                        resultado = primero + segundo;
+                        break;
+                    case "-":
+                        resultado = primero - segundo;
+                        break;
+                    case "x":
+                        resultado = primero * segundo;
+                        break;
+                    case "÷":
+                        resultado = primero / segundo;
+                        break;
+                    case "%":
+                        resultado = (primero / 100) * segundo;
+                        break;
+                    case "AND":
+                        resultado = (int) (primero) & (int) (segundo);
+                        break;
+                    case "OR":
+                        resultado = (int) (primero) | (int) (segundo);
+                        break;
+                    case "XOR":
+                        resultado = (int) (primero) ^ (int) (segundo);
+                        break;
+                }
+                if (binario.isSelected()) { //Muestra resultado en binario
+                    String binn1 = Integer.toBinaryString(Integer.parseInt(n1, 2));
+                    String binn2 = Integer.toBinaryString(Integer.parseInt(n2, 2));
+                    String binrdo = Integer.toBinaryString((int) resultado);
+                    grande.setText(binrdo);
+                    peque.setText(binn1 + signo + binn2);
+                    n1 = binrdo;
+                } else { //Muestra resultado en decimal
+                    grande.setText(resultado + "");
+                    peque.setText(n1 + signo + n2);
+                    n1 = resultado + "";
+                }
+                n2 = "";
+                signo = "";
             }
         });
-    }
-
-    public static long conversorBinarioDecimal(String binario) {
-        // A este número le vamos a sumar cada valor binario
-        long decimal = 0;
-        int posicion = 0;
-        // Recorrer la cadena...
-        for (int x = binario.length() - 1; x >= 0; x--) {
-            // Saber si es 1 o 0; primero asumimos que es 1 y abajo comprobamos
-            short digito = 1;
-            if (binario.charAt(x) == '0') {
-                digito = 0;
-            }
-      /*
-          Se multiplica el dígito por 2 elevado a la potencia
-          según la posición; comenzando en 0, luego 1 y así
-          sucesivamente
-       */
-            double multiplicador = Math.pow(2, posicion);
-            decimal += digito * multiplicador;
-            posicion++;
-        }
-        return decimal;
-    }
-
-    public static String conversorDecimalBinario(long decimal) {
-        int numero = (int) decimal;
-        return Integer.toBinaryString(numero);
     }
 }
