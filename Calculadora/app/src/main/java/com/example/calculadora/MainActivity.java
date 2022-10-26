@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 grande.setText(n1 + signo + n2);
                 peque.setText("0.0");
+                tamanio();
             }
         });
         binario.setOnClickListener(view -> {
@@ -150,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 grande.setText(n1 + signo + n2);
                 peque.setText("0.0");
+                tamanio();
             }
         });
 
@@ -162,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
                 n1 = n1 + 0;
                 grande.setText(n1);
             }
+            tamanio();
         });
         button1.setOnClickListener(view -> {
             if (!signo.equals("")) {
@@ -171,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 n1 = n1 + 1;
                 grande.setText(n1);
             }
+            tamanio();
         });
         button2.setOnClickListener(view -> {
             if (!signo.equals("")) {
@@ -180,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
                 n1 = n1 + 2;
                 grande.setText(n1);
             }
+            tamanio();
         });
         button3.setOnClickListener(view -> {
             if (!signo.equals("")) {
@@ -189,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
                 n1 = n1 + 3;
                 grande.setText(n1);
             }
+            tamanio();
         });
         button4.setOnClickListener(view -> {
             if (!signo.equals("")) {
@@ -198,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
                 n1 = n1 + 4;
                 grande.setText(n1);
             }
+            tamanio();
         });
         button5.setOnClickListener(view -> {
             if (!signo.equals("")) {
@@ -207,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
                 n1 = n1 + 5;
                 grande.setText(n1);
             }
+            tamanio();
         });
         button6.setOnClickListener(view -> {
             if (!signo.equals("")) {
@@ -216,6 +224,7 @@ public class MainActivity extends AppCompatActivity {
                 n1 = n1 + 6;
                 grande.setText(n1);
             }
+            tamanio();
         });
         button7.setOnClickListener(view -> {
             if (!signo.equals("")) {
@@ -225,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
                 n1 = n1 + 7;
                 grande.setText(n1);
             }
+            tamanio();
         });
         button8.setOnClickListener(view -> {
             if (!signo.equals("")) {
@@ -234,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
                 n1 = n1 + 8;
                 grande.setText(n1);
             }
+            tamanio();
         });
         button9.setOnClickListener(view -> {
             if (!signo.equals("")) {
@@ -243,6 +254,7 @@ public class MainActivity extends AppCompatActivity {
                 n1 = n1 + 9;
                 grande.setText(n1);
             }
+            tamanio();
         });
 
         //Coma
@@ -263,6 +275,7 @@ public class MainActivity extends AppCompatActivity {
                 n1 = n1 + ".";
                 grande.setText(n1);
             }
+            tamanio();
         });
 
         // Funciones de borrado
@@ -282,6 +295,7 @@ public class MainActivity extends AppCompatActivity {
                 n1 = cadena;
                 grande.setText(cadena);
             }
+            tamanio();
         });
         buttonC.setOnClickListener(view -> {
             n1 = "";
@@ -289,6 +303,7 @@ public class MainActivity extends AppCompatActivity {
             signo = "";
             grande.setText("");
             peque.setText("0.0");
+            tamanio();
         });
 
         //Operaciones
@@ -296,30 +311,35 @@ public class MainActivity extends AppCompatActivity {
             if (grande.getText() != "" && signo.equals("")) {
                 signo = "+";
                 grande.setText(n1 + signo);
+                tamanio();
             }
         });
         buttonRes.setOnClickListener(view -> {
             if (grande.getText() != "" && signo.equals("")) {
                 signo = "-";
                 grande.setText(n1 + signo);
+                tamanio();
             }
         });
         buttonMul.setOnClickListener(view -> {
             if (grande.getText() != "" && signo.equals("")) {
                 signo = "x";
                 grande.setText(n1 + signo);
+                tamanio();
             }
         });
         buttonDiv.setOnClickListener(view -> {
             if (grande.getText() != "" && signo.equals("")) {
                 signo = "÷";
                 grande.setText(n1 + signo);
+                tamanio();
             }
         });
         buttonPorc.setOnClickListener(view -> {
             if (grande.getText() != "" && signo.equals("")) {
                 signo = "%";
                 grande.setText(n1 + signo);
+                tamanio();
             }
         });
 
@@ -328,18 +348,21 @@ public class MainActivity extends AppCompatActivity {
             if (grande.getText() != "" && signo.equals("")) {
                 signo = "AND";
                 grande.setText(n1 + signo);
+                tamanio();
             }
         });
         buttonOR.setOnClickListener(view -> {
             if (grande.getText() != "" && signo.equals("")) {
                 signo = "OR";
                 grande.setText(n1 + signo);
+                tamanio();
             }
         });
         buttonXOR.setOnClickListener(view -> {
             if (grande.getText() != "" && signo.equals("")) {
                 signo = "XOR";
                 grande.setText(n1 + signo);
+                tamanio();
             }
         });
         buttonNOT.setOnClickListener(view -> {
@@ -355,6 +378,7 @@ public class MainActivity extends AppCompatActivity {
                 grande.setText(rdo);
                 peque.setText(n1 + "NOT");
                 n1 = rdo + "";
+                tamanio();
             }
         });
 
@@ -410,7 +434,18 @@ public class MainActivity extends AppCompatActivity {
                 }
                 n2 = "";
                 signo = "";
+                tamanio();
             }
         });
+    }
+    public void tamanio (){
+        if (grande.getText().length() > 13 && grande.getText().length() < 18){
+            grande.setTextSize(38);
+        }else if (grande.getText().length() >= 18){
+            grande.setTextSize(30);
+        }else{
+            grande.setTextSize(48);
+        }
+
     }
 }
