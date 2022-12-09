@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         if (codigo.isEmpty()) {
             Toast.makeText(this, "Introduce el codigo del contacto", Toast.LENGTH_SHORT).show();
         } else {
-            int cantidad = conexion.delete("contactos", "codigo=" + codigo, null);
+            int cantidad = conexion.delete("contactos", "codigo=\"" + codigo + "\"", null);
             conexion.close();
             txt_codigo.setText("");
             txt_nombre.setText("");
@@ -209,14 +209,19 @@ public class MainActivity extends AppCompatActivity {
             }
             if (busq) {
                 Cursor c = conexion.rawQuery("select codigo, Nombre, Apellidos, telefono, email, grupo FROM contactos " + query, null);
-                for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-                    Contacto contacto = new Contacto(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5));
-                    lista.add(contacto);
+                if (c.getCount() > 0) {
+                    for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+                        Contacto contacto = new Contacto(c.getString(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5));
+                        lista.add(contacto);
+                    }
+                    conexion.close();
+                    Intent avanz = new Intent(this, BusquedaAvanzada.class);
+                    avanz.putExtra("list", lista);
+                    startActivity(avanz);
+                } else {
+                    Toast.makeText(this, "No se encuentra un contacto con esos campos", Toast.LENGTH_SHORT).show();
+                    conexion.close();
                 }
-                conexion.close();
-                Intent avanz = new Intent(this, BusquedaAvanzada.class);
-                avanz.putExtra("list", lista);
-                startActivity(avanz);
             } else {
                 Toast.makeText(this, "Rellena algun campo para hacer una busqueda", Toast.LENGTH_SHORT).show();
             }
