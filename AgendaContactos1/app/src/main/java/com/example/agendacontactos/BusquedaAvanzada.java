@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ public class BusquedaAvanzada extends AppCompatActivity {
     TextView txtcodigo, txtnombre, txtapellido, txttel, txtemail, txtgrupo, txtmax;
     EditText nResultado;
     ArrayList<Contacto> listacontactos;
+    Button siguiente, anterior, ir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,22 @@ public class BusquedaAvanzada extends AppCompatActivity {
         txtgrupo = (TextView) findViewById(R.id.textView8);
         txtmax = (TextView) findViewById(R.id.textView10);
         nResultado = (EditText) findViewById(R.id.editTextPhone);
+        siguiente = (Button) findViewById(R.id.button11);
+        anterior = (Button) findViewById(R.id.button10);
+        ir = (Button) findViewById(R.id.button12);
         listacontactos = (ArrayList<Contacto>) getIntent().getSerializableExtra("list");
         txtmax.setText("de " + listacontactos.size());
         cargar(listacontactos);
+
+        if (listacontactos.size()==1){
+            siguiente.setVisibility(View.INVISIBLE);
+            anterior.setVisibility(View.INVISIBLE);
+            ir.setVisibility(View.INVISIBLE);
+        }else {
+            siguiente.setVisibility(View.VISIBLE);
+            anterior.setVisibility(View.VISIBLE);
+            ir.setVisibility(View.VISIBLE);
+        }
     }
 
     public void cargar(ArrayList<Contacto> p) {

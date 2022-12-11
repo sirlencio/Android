@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         String email = txt_email.getText().toString();
         String tel = txt_telefono.getText().toString();
         String grupo = txt_grupo.getSelectedItem().toString();
-        if (nombre.isEmpty() || apellidos.isEmpty() || email.isEmpty() || tel.isEmpty()) {
+        if (codigo.isEmpty() || nombre.isEmpty() || apellidos.isEmpty() || email.isEmpty() || tel.isEmpty()) {
             Toast.makeText(this, "Rellena todos los campos", Toast.LENGTH_SHORT).show();
         } else {
             ContentValues registro = new ContentValues();
