@@ -85,73 +85,79 @@ public class MainActivity extends AppCompatActivity {
 
         //Cambio de modo
         decimal.setOnClickListener(view -> {
-            decimal.setSelected(true);
-            binario.setSelected(false);
-            if (comprobante) {
-                comprobante = false;
-                //Desactivaciones y activaciones de botones
-                button2.setEnabled(true);
-                button3.setEnabled(true);
-                button4.setEnabled(true);
-                button5.setEnabled(true);
-                button6.setEnabled(true);
-                button7.setEnabled(true);
-                button8.setEnabled(true);
-                button9.setEnabled(true);
-                buttonComa.setEnabled(true);
-                buttonAND.setVisibility(View.INVISIBLE);
-                buttonOR.setVisibility(View.INVISIBLE);
-                buttonXOR.setVisibility(View.INVISIBLE);
-                buttonNOT.setVisibility(View.INVISIBLE);
+            try {
+                decimal.setSelected(true);
+                binario.setSelected(false);
+                if (comprobante) {
+                    comprobante = false;
+                    //Desactivaciones y activaciones de botones
+                    button2.setEnabled(true);
+                    button3.setEnabled(true);
+                    button4.setEnabled(true);
+                    button5.setEnabled(true);
+                    button6.setEnabled(true);
+                    button7.setEnabled(true);
+                    button8.setEnabled(true);
+                    button9.setEnabled(true);
+                    buttonComa.setEnabled(true);
+                    buttonAND.setVisibility(View.INVISIBLE);
+                    buttonOR.setVisibility(View.INVISIBLE);
+                    buttonXOR.setVisibility(View.INVISIBLE);
+                    buttonNOT.setVisibility(View.INVISIBLE);
 
-                //Cambio de formato
-                if (signo.equals("AND") || signo.equals("OR") || signo.equals("XOR")) {
-                    n1 = Integer.parseInt(n1, 2) + "";
-                    n2 = "";
-                    signo = "";
-                } else {
-                    if (!n2.equals("")) {
+                    //Cambio de formato
+                    if (signo.equals("AND") || signo.equals("OR") || signo.equals("XOR")) {
                         n1 = Integer.parseInt(n1, 2) + "";
-                        n2 = Integer.parseInt(n2, 2) + "";
-                    } else if (!n1.equals("")) {
-                        n1 = Integer.parseInt(n1, 2) + "";
+                        n2 = "";
+                        signo = "";
+                    } else {
+                        if (!n2.equals("")) {
+                            n1 = Integer.parseInt(n1, 2) + "";
+                            n2 = Integer.parseInt(n2, 2) + "";
+                        } else if (!n1.equals("")) {
+                            n1 = Integer.parseInt(n1, 2) + "";
+                        }
                     }
+                    grande.setText(n1 + signo + n2);
+                    peque.setText("0.0");
+                    tamanio();
                 }
-                grande.setText(n1 + signo + n2);
-                peque.setText("0.0");
-                tamanio();
+            }catch (Exception e){
             }
         });
         binario.setOnClickListener(view -> {
-            binario.setSelected(true);
-            decimal.setSelected(false);
-            if (!comprobante) {
-                comprobante = true;
-                //Desactivaciones y activaciones de botones
-                button2.setEnabled(false);
-                button3.setEnabled(false);
-                button4.setEnabled(false);
-                button5.setEnabled(false);
-                button6.setEnabled(false);
-                button7.setEnabled(false);
-                button8.setEnabled(false);
-                button9.setEnabled(false);
-                buttonComa.setEnabled(false);
-                buttonAND.setVisibility(View.VISIBLE);
-                buttonOR.setVisibility(View.VISIBLE);
-                buttonXOR.setVisibility(View.VISIBLE);
-                buttonNOT.setVisibility(View.VISIBLE);
+            try {
+                binario.setSelected(true);
+                decimal.setSelected(false);
+                if (!comprobante) {
+                    comprobante = true;
+                    //Desactivaciones y activaciones de botones
+                    button2.setEnabled(false);
+                    button3.setEnabled(false);
+                    button4.setEnabled(false);
+                    button5.setEnabled(false);
+                    button6.setEnabled(false);
+                    button7.setEnabled(false);
+                    button8.setEnabled(false);
+                    button9.setEnabled(false);
+                    buttonComa.setEnabled(false);
+                    buttonAND.setVisibility(View.VISIBLE);
+                    buttonOR.setVisibility(View.VISIBLE);
+                    buttonXOR.setVisibility(View.VISIBLE);
+                    buttonNOT.setVisibility(View.VISIBLE);
 
-                //Cambio de formato
-                if (!n2.equals("")) {
-                    n1 = Integer.toBinaryString((int) (Double.parseDouble(n1)));
-                    n2 = Integer.toBinaryString((int) (Double.parseDouble(n2)));
-                } else if (!n1.equals("")) {
-                    n1 = Integer.toBinaryString((int) (Double.parseDouble(n1)));
+                    //Cambio de formato
+                    if (!n2.equals("")) {
+                        n1 = Integer.toBinaryString((int) (Double.parseDouble(n1)));
+                        n2 = Integer.toBinaryString((int) (Double.parseDouble(n2)));
+                    } else if (!n1.equals("")) {
+                        n1 = Integer.toBinaryString((int) (Double.parseDouble(n1)));
+                    }
+                    grande.setText(n1 + signo + n2);
+                    peque.setText("0.0");
+                    tamanio();
                 }
-                grande.setText(n1 + signo + n2);
-                peque.setText("0.0");
-                tamanio();
+            }catch (Exception e){
             }
         });
 
