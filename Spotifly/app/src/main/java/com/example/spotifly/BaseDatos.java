@@ -1,6 +1,5 @@
 package com.example.spotifly;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -14,9 +13,9 @@ public class BaseDatos extends SQLiteOpenHelper {
             "id_usuario INTEGER PRIMARY KEY AUTOINCREMENT ," +
             "nombre TEXT NOT NULL UNIQUE," +
             "sexo TEXT ,"+
-            "fecha_nac DATE ,"+
-            "imagen BLOB ," +
-            "video varchar(255))";
+            "fecha_nac TEXT ,"+
+            "imagen TEXT ," +
+            "video TEXT)";
 
     public static final String TABLA_CANCIONES = "CREATE TABLE canciones (" +
             "id_cancion INTEGER PRIMARY KEY AUTOINCREMENT ," +
@@ -44,19 +43,9 @@ public class BaseDatos extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS usuarios");
+        db.execSQL("DROP TABLE IF EXISTS canciones");
+        db.execSQL("DROP TABLE IF EXISTS usuario_cancion");
         onCreate(db);
     }
 
-    public void registrarUsuario(String nombreUsuario, String sexo, String fechaNacimiento, byte[] foto, String video) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("nombre_usuario", nombreUsuario);
-        values.put("sexo", sexo);
-        values.put("fecha_nacimiento", fechaNacimiento);
-        values.put("foto", foto);
-        values.put("video", video);
-
-        db.insert("usuarios", null, values);
-        db.close();
-    }
 }
