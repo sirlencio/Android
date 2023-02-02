@@ -9,7 +9,6 @@
         android:title="Salir" />
     <item
         android:id="@+id/icono_user"
-        android:icon="@drawable/men"
-        android:title="icono"
+        android:contentDescription="icono"
         app:showAsAction="always" />
 </menu>

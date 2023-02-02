@@ -11,7 +11,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,8 +24,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
@@ -98,21 +96,22 @@ public class MainActivity extends AppCompatActivity {
                 values.put("nombre", nombre);
                 values.put("sexo", sexo);
                 values.put("fecha_nac", fechaNac);
-                Bitmap b = BitmapFactory.decodeResource(getResources(),R.id.imageView);
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                b.compress(Bitmap.CompressFormat.PNG, 100, bos);
-                byte[] img = bos.toByteArray();
+
+                Bitmap bitmap = ((BitmapDrawable) imagen.getDrawable()).getBitmap();
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] img = stream.toByteArray();
                 values.put("imagen", img);
 
                 if (comprobaciones(nombre, fechaNac)) {
                     bbdd.insert("usuarios", null, values);
+                    Toast.makeText(this, "Usuario registrado con exito", Toast.LENGTH_SHORT).show();
                     txt_nombre.setText("");
                     txt_fecha.setText("");
-
-                    Intent loged = new Intent(this, ActivityReproductor.class);
-                    startActivity(loged);
+                    bbdd.close();
+                } else {
+                    bbdd.close();
                 }
-                bbdd.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -143,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
                     age--;
                 }
                 if (age >= 16) {
-                    System.out.println("El usuario es mayor de 16 años");
                     cumple = true;
                 } else {
                     Toast.makeText(this, "El usuario no puede ser menor de 16 años", Toast.LENGTH_SHORT).show();
@@ -161,12 +159,7 @@ public class MainActivity extends AppCompatActivity {
             String nombre = txt_nombre.getText().toString();
             if (comprobarNombre(nombre)) {
                 Intent loged = new Intent(this, ActivityReproductor.class);
-                Bitmap b = BitmapFactory.decodeResource(getResources(),R.id.imageView);
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                b.compress(Bitmap.CompressFormat.PNG, 100, bos);
-                byte[] img = bos.toByteArray();
-                usuario user = new usuario(nombre, img);
-                loged.putExtra("usuario", user);
+                loged.putExtra("id_usuario", cogerID(nombre));
                 startActivity(loged);
             } else {
                 Toast.makeText(this, "El usuario \"" + nombre + "\" no existe", Toast.LENGTH_SHORT).show();
@@ -180,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean comprobarNombre(String nombre) {
         BaseDatos admin = new BaseDatos(this);
         SQLiteDatabase bbdd = admin.getReadableDatabase();
-
         String sql = "Select * from usuarios where nombre like '" + nombre + "'";
         Cursor fila = bbdd.rawQuery(sql, null);
         if (!fila.moveToFirst()) {
@@ -192,6 +184,19 @@ public class MainActivity extends AppCompatActivity {
             bbdd.close();
             return true;
         }
+    }
+
+    public int cogerID(String nombre) {
+        BaseDatos admin = new BaseDatos(this);
+        SQLiteDatabase bbdd = admin.getReadableDatabase();
+
+        String sql = "Select id_usuario from usuarios where nombre like '" + nombre + "'";
+        Cursor fila = bbdd.rawQuery(sql, null);
+        fila.moveToFirst();
+        int id = fila.getInt(0);
+        fila.close();
+        bbdd.close();
+        return id;
     }
 
 
@@ -210,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.menu_acerca:
-                Toast.makeText(this,"Aplicacion realizada por Carlos Lozano", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Aplicacion realizada por Carlos Lozano", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);

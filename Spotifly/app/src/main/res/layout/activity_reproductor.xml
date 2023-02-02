@@ -6,4 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".ActivityReproductor">
 
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:tabMode="fixed">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inicio" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabPlaylist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Playlist" />
+    </com.google.android.material.tabs.TabLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

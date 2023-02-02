@@ -3,6 +3,7 @@ package com.example.spotifly;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import androidx.annotation.Nullable;
 
 public class BaseDatos extends SQLiteOpenHelper {
@@ -12,8 +13,8 @@ public class BaseDatos extends SQLiteOpenHelper {
     public static final String TABLA_USUARIOS = "CREATE TABLE usuarios (" +
             "id_usuario INTEGER PRIMARY KEY AUTOINCREMENT ," +
             "nombre TEXT NOT NULL UNIQUE," +
-            "sexo TEXT ,"+
-            "fecha_nac TEXT ,"+
+            "sexo TEXT ," +
+            "fecha_nac TEXT ," +
             "imagen BLOB ," +
             "video TEXT)";
 
