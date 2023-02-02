@@ -14,7 +14,7 @@ public class BaseDatos extends SQLiteOpenHelper {
             "nombre TEXT NOT NULL UNIQUE," +
             "sexo TEXT ,"+
             "fecha_nac TEXT ,"+
-            "imagen TEXT ," +
+            "imagen BLOB ," +
             "video TEXT)";
 
     public static final String TABLA_CANCIONES = "CREATE TABLE canciones (" +

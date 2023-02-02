@@ -10,6 +10,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -95,8 +98,11 @@ public class MainActivity extends AppCompatActivity {
                 values.put("nombre", nombre);
                 values.put("sexo", sexo);
                 values.put("fecha_nac", fechaNac);
-                //values.put("imagen", imagen.toString());
-                //values.put("video", (String) null);
+                Bitmap b = BitmapFactory.decodeResource(getResources(),R.id.imageView);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                b.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                byte[] img = bos.toByteArray();
+                values.put("imagen", img);
 
                 if (comprobaciones(nombre, fechaNac)) {
                     bbdd.insert("usuarios", null, values);
@@ -155,6 +161,12 @@ public class MainActivity extends AppCompatActivity {
             String nombre = txt_nombre.getText().toString();
             if (comprobarNombre(nombre)) {
                 Intent loged = new Intent(this, ActivityReproductor.class);
+                Bitmap b = BitmapFactory.decodeResource(getResources(),R.id.imageView);
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                b.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                byte[] img = bos.toByteArray();
+                usuario user = new usuario(nombre, img);
+                loged.putExtra("usuario", user);
                 startActivity(loged);
             } else {
                 Toast.makeText(this, "El usuario \"" + nombre + "\" no existe", Toast.LENGTH_SHORT).show();
@@ -195,7 +207,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_salir:
-                Toast.makeText(this, "Saliendo", Toast.LENGTH_SHORT).show();
+                finish();
+                break;
+            case R.id.menu_acerca:
+                Toast.makeText(this,"Aplicacion realizada por Carlos Lozano", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
