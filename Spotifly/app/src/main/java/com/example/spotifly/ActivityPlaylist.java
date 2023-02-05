@@ -17,14 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ActivityReproductor extends AppCompatActivity {
+public class ActivityPlaylist extends AppCompatActivity {
 
     public int id_usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reproductor);
+        setContentView(R.layout.activity_playlist);
         Intent i = getIntent();
         id_usuario = i.getIntExtra("id_usuario", 0);
     }

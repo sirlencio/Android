@@ -16,7 +16,7 @@
             android:name=".ActivityRegistrar"
             android:exported="false" />
         <activity
-            android:name=".ActivityReproductor"
+            android:name=".ActivityPlaylist"
             android:exported="false" />
         <activity
             android:name=".ActivityLogin"

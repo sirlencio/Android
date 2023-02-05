@@ -13,15 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.io.ByteArrayOutputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
 public class ActivityLogin extends AppCompatActivity {
 
     public EditText txt_nombre;
@@ -44,7 +35,7 @@ public class ActivityLogin extends AppCompatActivity {
         try {
             String nombre = txt_nombre.getText().toString();
             if (comprobarNombre(nombre)) {
-                Intent loged = new Intent(this, ActivityReproductor.class);
+                Intent loged = new Intent(this, ActivityPlaylist.class);
                 loged.putExtra("id_usuario", cogerID(nombre));
                 startActivity(loged);
             } else {
