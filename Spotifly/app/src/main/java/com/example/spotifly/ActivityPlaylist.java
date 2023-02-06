@@ -3,6 +3,8 @@ package com.example.spotifly;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,10 +18,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.spotifly.Adapters.MyFragmenAdapter;
+import com.google.android.material.tabs.TabLayout;
 
 public class ActivityPlaylist extends AppCompatActivity {
 
     public int id_usuario;
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager2;
+    private MyFragmenAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +34,40 @@ public class ActivityPlaylist extends AppCompatActivity {
         setContentView(R.layout.activity_playlist);
         Intent i = getIntent();
         id_usuario = i.getIntExtra("id_usuario", 0);
+
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager2 = findViewById(R.id.viewpager2);
+
+        tabLayout.addTab(tabLayout.newTab().setText("Inicio"));
+        tabLayout.addTab(tabLayout.newTab().setText("Playlist"));
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        adapter = new MyFragmenAdapter(fragmentManager, getLifecycle());
+        viewPager2.setAdapter(adapter);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager2.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
     }
 
     //Asignar menu layout al menu de esta ventana
@@ -66,16 +107,16 @@ public class ActivityPlaylist extends AppCompatActivity {
             case R.id.menu_acerca:
                 Toast.makeText(this, "Aplicacion realizada por Carlos Lozano Pérez", Toast.LENGTH_SHORT).show();
                 break;
-            case  R.id.icono_user:
+            case R.id.icono_user:
                 crearDialogoInformacion();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void crearDialogoInformacion(){
+    public void crearDialogoInformacion() {
         AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(this);
-        final View infoPopup = getLayoutInflater().inflate(R.layout.ejemplo, null);
+        final View infoPopup = getLayoutInflater().inflate(R.layout.info_usuario, null);
         ImageView imagen = infoPopup.findViewById(R.id.imageViewInfo);
         TextView nombre = infoPopup.findViewById(R.id.textViewInfoNombre);
         TextView fecha = infoPopup.findViewById(R.id.textViewInfoFecha);

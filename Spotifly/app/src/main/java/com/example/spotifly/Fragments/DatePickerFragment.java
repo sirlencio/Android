@@ -1,4 +1,4 @@
-package com.example.spotifly;
+package com.example.spotifly.Fragments;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
