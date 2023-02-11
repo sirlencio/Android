@@ -35,7 +35,7 @@ public class ActivityLogin extends AppCompatActivity {
         try {
             String nombre = txt_nombre.getText().toString();
             if (comprobarNombre(nombre)) {
-                Intent loged = new Intent(this, ActivityPlaylist.class);
+                Intent loged = new Intent(this, ActivityInicio.class);
                 loged.putExtra("id_usuario", cogerID(nombre));
                 startActivity(loged);
             } else {
