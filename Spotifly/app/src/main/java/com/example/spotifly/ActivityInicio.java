@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -16,17 +17,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.spotifly.Adapters.CancionListAdapter;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -55,7 +59,8 @@ public class ActivityInicio extends AppCompatActivity {
         String[] projection = {
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.DATA,
-                MediaStore.Audio.Media.DURATION
+                MediaStore.Audio.Media.DURATION,
+                MediaStore.Audio.Media.ARTIST
         };
 
         String selection = MediaStore.Audio.Media.IS_MUSIC + " != 0";
@@ -63,9 +68,11 @@ public class ActivityInicio extends AppCompatActivity {
 
         Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null, sortorder);
         while (cursor.moveToNext()) {
-            Cancion songData = new Cancion(cursor.getString(1), cursor.getString(0), cursor.getString(2));
-            if (new File(songData.getRuta()).exists() && songData.getRuta().contains("/Music"))
+            Cancion songData = new Cancion(cursor.getString(1), cursor.getString(0), cursor.getString(2), cursor.getString(3));
+            if (new File(songData.getRuta()).exists() && songData.getRuta().contains("/Music")) {
                 songsList.add(songData);
+                registrarCancion(songData);
+            }
         }
 
         if (songsList.size() == 0) {
@@ -73,17 +80,48 @@ public class ActivityInicio extends AppCompatActivity {
         } else {
             //recyclerview
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(new CancionListAdapter(songsList, getApplicationContext()));
+            recyclerView.setAdapter(new CancionListAdapter(songsList, getApplicationContext(), id_usuario));
+        }
+
+    }
+
+    public boolean comprobarNombre(String nombre) {
+        BaseDatos admin = new BaseDatos(this);
+        SQLiteDatabase bbdd = admin.getReadableDatabase();
+        String sql = "Select * from canciones where titulo like ?";
+        String [] args = {nombre};
+        Cursor fila = bbdd.rawQuery(sql, args);
+        if (!fila.moveToFirst()) {
+            fila.close();
+            bbdd.close();
+            return false;
+        } else {
+            fila.close();
+            bbdd.close();
+            return true;
+        }
+    }
+
+    public void registrarCancion(Cancion song) {
+        if (!comprobarNombre(song.getTitulo())) {
+            try {
+                BaseDatos admin = new BaseDatos(this);
+                SQLiteDatabase bbdd = admin.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put("titulo", song.getTitulo());
+                values.put("artista", song.getArtista());
+
+                bbdd.insert("canciones", null, values);
+                bbdd.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(ActivityInicio.this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            return false;
-        }
+        return result == PackageManager.PERMISSION_GRANTED;
     }
 
     void requestPermission() {
@@ -97,7 +135,7 @@ public class ActivityInicio extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (recyclerView != null) {
-            recyclerView.setAdapter(new CancionListAdapter(songsList, getApplicationContext()));
+            recyclerView.setAdapter(new CancionListAdapter(songsList, getApplicationContext(), id_usuario));
         }
     }
 
@@ -141,6 +179,11 @@ public class ActivityInicio extends AppCompatActivity {
             case R.id.icono_user:
                 crearDialogoInformacion();
                 break;
+            case R.id.abrir_playlist:
+                Intent i = new Intent(this, ActivityPlaylist.class);
+                i.putExtra("idusuario",id_usuario);
+                startActivity(i);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -174,5 +217,10 @@ public class ActivityInicio extends AppCompatActivity {
         dialogbuilder.setView(infoPopup);
         AlertDialog dialog = dialogbuilder.create();
         dialog.show();
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

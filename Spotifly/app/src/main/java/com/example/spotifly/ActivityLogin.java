@@ -2,6 +2,7 @@ package com.example.spotifly;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -86,6 +87,13 @@ public class ActivityLogin extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        MenuItem visble = menu.findItem(R.id.abrir_playlist);
+        visble.setVisible(false);
+
+        MenuItem visble2 = menu.findItem(R.id.icono_user);
+        visble2.setVisible(false);
+
         return super.onCreateOptionsMenu(menu);
     }
 

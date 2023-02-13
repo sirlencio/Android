@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.spotifly.Fragments.DatePickerFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -52,12 +54,14 @@ public class ActivityRegistrar extends AppCompatActivity {
         RadioGroup rg = findViewById(R.id.radioGroup);
 
         rg.setOnCheckedChangeListener((radioGroup, i) -> {
-            if (!fotoMetida){
+            if (!fotoMetida) {
                 RadioButton radioButton = rg.findViewById(i);
                 int index = rg.indexOfChild(radioButton);
                 imagen.setImageResource(fotos[index]);
             }
         });
+
+        imagen.setImageResource(R.drawable.men);
 
         txt_fecha.setOnClickListener(View -> showDatePickerDialog());
 
@@ -187,6 +191,10 @@ public class ActivityRegistrar extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        MenuItem visble = menu.findItem(R.id.abrir_playlist);
+        visble.setVisible(false);
+
         return super.onCreateOptionsMenu(menu);
     }
 

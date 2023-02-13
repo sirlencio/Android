@@ -20,7 +20,7 @@ public class BaseDatos extends SQLiteOpenHelper {
 
     public static final String TABLA_CANCIONES = "CREATE TABLE canciones (" +
             "id_cancion INTEGER PRIMARY KEY AUTOINCREMENT ," +
-            "titulo TEXT NOT NULL," +
+            "titulo TEXT NOT NULL UNIQUE," +
             "artista text)";
 
     public static final String TABLA_USUARIO_CANCION = "CREATE TABLE usuario_cancion (" +
