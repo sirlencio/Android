@@ -207,6 +207,14 @@ public class ActivityReproductor extends AppCompatActivity {
     }
 
     private void playPreviousSong() {
+        if(loopStatus == 1){
+            if (MyMediaPlayer.currentIndex == 0){
+                MyMediaPlayer.currentIndex = songsList.size() - 1;
+                mediaPlayer.reset();
+                setResourcesWithMusic();
+                return;
+            }
+        }
         if (MyMediaPlayer.currentIndex == 0)
             return;
         MyMediaPlayer.currentIndex -= 1;
