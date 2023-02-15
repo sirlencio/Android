@@ -7,20 +7,20 @@
     android:background="#191414"
     tools:context=".ActivityRegistrar">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView"
         android:layout_width="220dp"
         android:layout_height="217dp"
         android:adjustViewBounds="true"
-        android:background="@drawable/avatar"
         android:elevation="5dp"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.060000002"
+        app:shapeAppearanceOverlay="@style/roundeImage"
         tools:srcCompat="@drawable/men" />
 
 

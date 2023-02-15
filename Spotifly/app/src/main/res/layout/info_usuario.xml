@@ -8,14 +8,15 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageViewInfo"
         android:layout_width="122dp"
         android:layout_height="122dp"
         android:adjustViewBounds="true"
-        android:background="@drawable/avatar"
         android:elevation="5dp"
-        app:srcCompat="@drawable/men" />
+        app:srcCompat="@drawable/men"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/roundeImage"/>
 
     <TextView
         android:id="@+id/textViewInfoNombre"

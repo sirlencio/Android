@@ -94,6 +94,9 @@ public class ActivityLogin extends AppCompatActivity {
         MenuItem visble2 = menu.findItem(R.id.icono_user);
         visble2.setVisible(false);
 
+        MenuItem visble3 = menu.findItem(R.id.menu_item_video);
+        visble3.setVisible(false);
+
         return super.onCreateOptionsMenu(menu);
     }
 

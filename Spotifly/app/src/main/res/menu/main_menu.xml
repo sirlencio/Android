@@ -6,6 +6,9 @@
         android:icon="@drawable/baseline_view_list_24"
         app:showAsAction="always" />
     <item
+        android:id="@+id/menu_item_video"
+        android:title="Video" />
+    <item
         android:id="@+id/menu_acerca"
         android:title="Acerca de" />
     <item
@@ -14,5 +17,6 @@
     <item
         android:id="@+id/icono_user"
         android:contentDescription="icono"
+        android:icon="@drawable/men"
         app:showAsAction="always" />
 </menu>

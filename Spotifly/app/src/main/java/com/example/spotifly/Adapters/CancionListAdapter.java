@@ -49,12 +49,6 @@ public class CancionListAdapter extends RecyclerView.Adapter<CancionListAdapter.
         holder.titleTextView.setText(songData.getTitulo());
         holder.artistTextView.setText(songData.getArtista());
 
-        if (MyMediaPlayer.currentIndex == holder.getAdapterPosition()) {
-            holder.titleTextView.setTextColor(Color.parseColor("#FF0000"));
-        } else {
-            holder.titleTextView.setTextColor(Color.parseColor("#000000"));
-        }
-
         if (esfav(songData)) {
             btnanadirplaylist.setImageResource(R.drawable.playlist_added);
             btnanadirplaylist.setTag(R.drawable.playlist_added);
@@ -89,7 +83,8 @@ public class CancionListAdapter extends RecyclerView.Adapter<CancionListAdapter.
         });
 
     }
-    public void borrarfav(Cancion song){
+
+    public void borrarfav(Cancion song) {
         BaseDatos admin = new BaseDatos(context);
         SQLiteDatabase bbdd = admin.getReadableDatabase();
         String sql = "Delete from usuario_cancion where id_usuario like " + idusario + " and id_cancion like " + obtenerID(song);
@@ -132,7 +127,7 @@ public class CancionListAdapter extends RecyclerView.Adapter<CancionListAdapter.
         BaseDatos admin = new BaseDatos(context);
         SQLiteDatabase bbdd = admin.getReadableDatabase();
         String sql = "Select id_cancion from canciones where titulo like ?";
-        String [] args = {song.getTitulo()};
+        String[] args = {song.getTitulo()};
         Cursor fila = bbdd.rawQuery(sql, args);
         fila.moveToFirst();
         int n = fila.getInt(0);

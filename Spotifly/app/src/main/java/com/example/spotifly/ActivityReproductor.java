@@ -1,14 +1,23 @@
 package com.example.spotifly;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.spotifly.Adapters.MyMediaPlayer;
 
@@ -207,8 +216,8 @@ public class ActivityReproductor extends AppCompatActivity {
     }
 
     private void playPreviousSong() {
-        if(loopStatus == 1){
-            if (MyMediaPlayer.currentIndex == 0){
+        if (loopStatus == 1) {
+            if (MyMediaPlayer.currentIndex == 0) {
                 MyMediaPlayer.currentIndex = songsList.size() - 1;
                 mediaPlayer.reset();
                 setResourcesWithMusic();
@@ -235,6 +244,39 @@ public class ActivityReproductor extends AppCompatActivity {
         return String.format("%02d:%02d",
                 TimeUnit.MILLISECONDS.toMinutes(millis) % TimeUnit.HOURS.toMinutes(1),
                 TimeUnit.MILLISECONDS.toSeconds(millis) % TimeUnit.MINUTES.toSeconds(1));
+    }
+
+    //Asignar menu layout al menu de esta ventana
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        MenuItem visble = menu.findItem(R.id.abrir_playlist);
+        visble.setVisible(false);
+
+        MenuItem visible2 = menu.findItem(R.id.icono_user);
+        visible2.setVisible(false);
+
+        MenuItem visble3 = menu.findItem(R.id.menu_item_video);
+        visble3.setVisible(false);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    //Asignar acciones a los items del menu
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_salir:
+                Toast.makeText(this, "Saliendo", Toast.LENGTH_SHORT).show();
+                finish();
+                break;
+            case R.id.menu_acerca:
+                Toast.makeText(this, "Aplicacion realizada por Carlos Lozano Pérez", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

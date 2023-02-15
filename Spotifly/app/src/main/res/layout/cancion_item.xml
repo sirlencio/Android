@@ -12,7 +12,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp">
 
@@ -24,12 +24,15 @@
 
             <ImageView
                 android:id="@+id/icon_view"
-                android:layout_width="294dp"
-                android:layout_height="36dp"
+                android:layout_width="276dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="#00352B2B"
                 android:contentDescription="Icono"
-                android:src="@drawable/music_icon" />
+                android:scaleType="centerInside"
+                android:src="@drawable/music_icon"
+                app:shapeAppearanceOverlay="@style/roundeImage" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,7 +42,7 @@
 
                 <TextView
                     android:id="@+id/music_title_text"
-                    android:layout_width="216dp"
+                    android:layout_width="183dp"
                     android:layout_height="23dp"
                     android:layout_marginStart="19dp"
                     android:layout_toEndOf="@id/icon_view"
@@ -47,12 +50,13 @@
                     android:background="#00352B2B"
                     android:ellipsize="end"
                     android:maxLines="1"
+                    android:paddingTop="5dp"
                     android:textColor="@color/white"
                     tools:text="Music" />
 
                 <TextView
                     android:id="@+id/artist_text"
-                    android:layout_width="215dp"
+                    android:layout_width="184dp"
                     android:layout_height="21dp"
                     android:layout_below="@+id/music_title_text"
                     android:layout_marginStart="19dp"
@@ -62,6 +66,7 @@
                     android:background="#00352B2B"
                     android:ellipsize="end"
                     android:maxLines="1"
+                    android:paddingTop="5dp"
                     android:textColor="@color/white"
                     android:textSize="8sp"
                     tools:text="Artist" />
@@ -69,16 +74,15 @@
 
             <ImageButton
                 android:id="@+id/imageButton"
-                android:layout_width="345dp"
+                android:layout_width="299dp"
                 android:layout_height="match_parent"
-                android:layout_marginStart="26dp"
                 android:layout_toEndOf="@id/music_title_text"
                 android:layout_weight="1"
                 android:background="#00FFFFFF"
                 android:contentDescription="boton anadir"
                 app:srcCompat="@drawable/playlist_add" />
         </LinearLayout>
-<!--
+        <!--
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="44dp"

@@ -146,6 +146,10 @@ public class ActivityPlaylist extends AppCompatActivity {
             case R.id.icono_user:
                 crearDialogoInformacion();
                 break;
+            case R.id.menu_item_video:
+                Intent intent = new Intent(this, ActivityVideo.class);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

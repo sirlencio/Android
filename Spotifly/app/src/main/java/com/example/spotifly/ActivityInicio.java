@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -170,8 +171,13 @@ public class ActivityInicio extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_salir:
-                Toast.makeText(this, "Saliendo", Toast.LENGTH_SHORT).show();
-                finish();
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Closing Activity")
+                        .setMessage("¿Esta seguro que quiere cerrar sesion?")
+                        .setPositiveButton("Si", (dialog, which) -> finish())
+                        .setNegativeButton("No", null)
+                        .show();
                 break;
             case R.id.menu_acerca:
                 Toast.makeText(this, "Aplicacion realizada por Carlos Lozano Pérez", Toast.LENGTH_SHORT).show();
@@ -183,6 +189,10 @@ public class ActivityInicio extends AppCompatActivity {
                 Intent i = new Intent(this, ActivityPlaylist.class);
                 i.putExtra("idusuario",id_usuario);
                 startActivity(i);
+                break;
+            case R.id.menu_item_video:
+                Intent intent = new Intent(this, ActivityVideo.class);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -220,7 +230,12 @@ public class ActivityInicio extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Closing Activity")
+                .setMessage("¿Esta seguro que quiere cerrar sesion?")
+                .setPositiveButton("Si", (dialog, which) -> finish())
+                .setNegativeButton("No", null)
+                .show();
     }
 }

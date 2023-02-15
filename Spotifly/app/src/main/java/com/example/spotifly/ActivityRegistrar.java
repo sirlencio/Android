@@ -195,6 +195,12 @@ public class ActivityRegistrar extends AppCompatActivity {
         MenuItem visble = menu.findItem(R.id.abrir_playlist);
         visble.setVisible(false);
 
+        MenuItem visible2 = menu.findItem(R.id.icono_user);
+        visible2.setVisible(false);
+
+        MenuItem visble3 = menu.findItem(R.id.menu_item_video);
+        visble3.setVisible(false);
+
         return super.onCreateOptionsMenu(menu);
     }
 
